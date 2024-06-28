@@ -3,6 +3,7 @@ import { BsCartPlus } from 'react-icons/bs';
 import { UseApi } from '../../hooks/useApi';
 import { CartContext } from '../../contexts/CartContext';
 import toast from 'react-hot-toast';
+import { Link } from 'react-router-dom';
 export interface ProductsProps {
   cover: string;
   description: string;
@@ -48,13 +49,14 @@ function handleAddProduct(product: ProductsProps) {
     <div className='grid grid-cols-1 gap-6 mb-grid-cols-2 lg:grid-cols-5'>
       {products.map((product) => (
     <section key={product.id} className='w-full'>
-        
+        <Link to={`/cartDetails/${product.id}`}>
     <img
     className='w-full rounded-lg max-h-70 mb-2'
     src={product.cover}
     alt='Logo do produto'
     />
     <p className='font-medium my-2'> {product.title} </p>
+    </Link>
     <div className='flex gap-3 items-center'>
       <strong className='text-zinc-700/90'> {product.price.toLocaleString('pt-BR', {
         style: 'currency',
