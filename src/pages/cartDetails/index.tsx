@@ -1,10 +1,28 @@
 import { useParams } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { ProductsProps } from "../home";
+import toast from 'react-hot-toast';
+import { CartContext } from '../../contexts/CartContext';
+import { BsCartPlus } from 'react-icons/bs';
 
 export default function CartDetails() {
+  const { addItemCart} = useContext(CartContext)
+
   const { id } = useParams<{ id: string }>();
   const [products, setProducts] = useState<ProductsProps[]>([]);
+
+
+function handleAddProduct(product: ProductsProps) {
+  toast.success("Produto adicionado no carrinho.", {
+    style: {
+      borderRadius: 10,
+      padding: "10px",
+      fontSize: "16px",
+      fontWeight: "bold"
+    }
+  })
+  addItemCart(product)
+}
 
   useEffect(() => {
     const handleGetProducts = async () => {
@@ -31,7 +49,7 @@ export default function CartDetails() {
 
   return (
     <div className="w-full max-w-7xl mx-auto ">
-      <h1 className="font-medium text-2xl text-center my-4">
+      <h1 className="font-medium text-2xl text-center my-8">
         {" "}
         Detalhes do produto
       </h1>
@@ -43,12 +61,18 @@ export default function CartDetails() {
       {products.map((product) => (
         <section
           key={product.id}
-          className="flex items-center justify-between border-b-2 border-gray-300"
+          className="flex items-start justify-between"
         >
-          <img className="w-28" src={product.cover} alt={product.title} />
-          <strong className="text-zinc-700/90"> {product.price}</strong>
+          <img className="w-5/12" src={product.cover} alt={product.title} />
+         <div className="flex flex-col gap-8 my-auto">
+          <h2 className="font-medium text-2xl"> {product.title}</h2>
           <p> {product.description}</p>
+          <strong className="text-zinc-700/90">R$  {product.price}</strong>
+          <button className="flex gap-8 max-w-80 text-center justify-center items-center bg-slate-200 my-3 p-1 px-3 text-black font-medium rounded hover:bg-slate-400" onClick={() => handleAddProduct(product)}> Adicionar produto ao carrinho <BsCartPlus size={20}/></button>
+
+          </div>
         </section>
+    
       ))}
     </div>
   );

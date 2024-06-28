@@ -10,12 +10,18 @@ export default function Cart() {
         {" "}
         Carrinho de compras{" "}
       </h1>
-{cart.length === 0 && (
-  <div className="flex flex-col items-center justify-center"> 
-    <h1 className="font-medium">  Ops, o seu carrinho está vazio.</h1>
-    <Link className="bg-slate-600 my-3 p-1 px-3 text-white font-medium rounded hover:bg-slate-700" to='/'> Acessar produtos </Link>
-  </div>
-)}
+      {cart.length === 0 && (
+        <div className="flex flex-col items-center justify-center">
+          <h1 className="font-medium"> Ops, o seu carrinho está vazio.</h1>
+          <Link
+            className="bg-slate-600 my-3 p-1 px-3 text-white font-medium rounded hover:bg-slate-700"
+            to="/"
+          >
+            {" "}
+            Acessar produtos{" "}
+          </Link>
+        </div>
+      )}
       {cart.map((product) => (
         <section
           key={product.id}
@@ -25,29 +31,35 @@ export default function Cart() {
           <strong className="text-zinc-700/90"> {product.price}</strong>
 
           <div className="flex items-cneter justify-center gap-3">
-            <button className="bg-slate-600 px-2 rounded text-white font-medium flex items-center justify-center" onClick={() => removeItemCart(product)}>
+            <button
+              className="bg-slate-600 px-2 rounded text-white font-medium flex items-center justify-center"
+              onClick={() => removeItemCart(product)}
+            >
               {" "}
               -{" "}
             </button>
             {product.amount}
-            <button className="bg-slate-600 px-2 rounded text-white font-medium flex items-center justify-center" onClick={() => addItemCart(product)}>
+            <button
+              className="bg-slate-600 px-2 rounded text-white font-medium flex items-center justify-center"
+              onClick={() => addItemCart(product)}
+            >
               {" "}
               +{" "}
             </button>
           </div>
 
-          <strong className="float-right"> Subtotal: {product.total.toLocaleString("pt-BR", {
-            style: "currency",
-            currency: "BRL"
-          })}
+          <strong className="float-right">
+            {" "}
+            Subtotal:{" "}
+            {product.total.toLocaleString("pt-BR", {
+              style: "currency",
+              currency: "BRL",
+            })}
           </strong>
         </section>
       ))}
 
-{cart.length !== 0 && (
-       <p className="font-bold mt-4"> Total: {total} </p>
-
-)}
+      {cart.length !== 0 && <p className="font-bold mt-4"> Total: {total} </p>}
     </div>
   );
 }
