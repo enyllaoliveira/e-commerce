@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, ChangeEvent } from "react";
 import { CartContext } from "../../contexts/CartContext";
 import { Link } from "react-router-dom";
 interface CepProps {
@@ -26,9 +26,16 @@ export default function Cart() {
       return error;
     }
   };
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (/^\d{0,8}$/.test(value)) {
+      setCep(value);
+    }
+  };
 
+ 
   return (
-    <div className="w-full max-w-7xl mx-auto ">
+    <div className="w-full max-w-7xl mx-auto px-5">
       <div className="flex flex-col gap-4">
         <h1 className="font-medium text-2xl text-center my-4">
           {" "}
@@ -49,14 +56,14 @@ export default function Cart() {
         {cart.map((product) => (
           <section
             key={product.id}
-            className="flex items-center justify-between border-b-2 border-gray-300"
+            className="flex items-center justify-between border-b-2 border-gray-300 gap-2 "
           >
             <img className="w-28" src={product.cover} alt={product.title} />
             <strong className="text-zinc-700/90"> {product.price}</strong>
 
-            <div className="flex items-cneter justify-center gap-3">
+            <div className="flex items-center justify-center gap-3">
               <button
-                className="bg-slate-600 hover:bg-slate-700  px-2 rounded text-white font-medium flex items-center justify-center"
+                className="bg-slate-600 hover:bg-slate-700  px-1.5 rounded text-white font-medium flex items-center justify-center"
                 onClick={() => removeItemCart(product)}
               >
                 {" "}
@@ -64,7 +71,7 @@ export default function Cart() {
               </button>
               {product.amount}
               <button
-                className="bg-slate-600 hover:bg-slate-700 px-2 rounded text-white font-medium flex items-center justify-center"
+                className="bg-slate-600 hover:bg-slate-700 px-1.5 rounded text-white font-medium flex items-center justify-center"
                 onClick={() => addItemCart(product)}
               >
                 {" "}
@@ -93,7 +100,8 @@ export default function Cart() {
             <input
               type="text"
               value={cep}
-              onChange={(e) => setCep(e.target.value)}
+              maxLength={8}
+              onChange={handleChange}
               className="border p-1 rounded mb-2 max-w-40"
             />
             <button
